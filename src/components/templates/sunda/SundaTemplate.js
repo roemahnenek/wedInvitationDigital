@@ -250,6 +250,17 @@ export default function SundaTemplate({
   const openInvitation = () => {
     setShowInvitation(true);
     setIsPlaying(true);
+    
+    // Manually trigger audio play on mobile (requires user interaction)
+    setTimeout(() => {
+      if (audioRef.current) {
+        audioRef.current.play().catch((e) => {
+          console.log("Audio autoplay prevented:", e);
+          // If autoplay fails, the user can still use the volume control
+        });
+      }
+    }, 100);
+    
     // Set RSVP name from guestName if available
     if (guestName) {
       setRsvpData((prev) => ({ ...prev, name: guestName }));
@@ -313,7 +324,7 @@ export default function SundaTemplate({
   return (
     <div className={`min-h-screen bg-white ${inter.className}`}>
       {audioUrl && (
-        <audio ref={audioRef} loop>
+        <audio ref={audioRef} loop preload="auto" playsInline>
           <source src={audioUrl} type="audio/mpeg" />
         </audio>
       )}
