@@ -159,6 +159,21 @@ export default function SundaTemplate({
     }
   }, [isPlaying, volume]);
 
+  // Stop music when browser is closing
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
+
   // Intersection Observer for image animations
   useEffect(() => {
     if (!showInvitation) return;
@@ -300,7 +315,7 @@ export default function SundaTemplate({
 
       {showInvitation && (
         <>
-          <div className="fixed top-6 right-6 z-50 bg-white/95 backdrop-blur-md rounded-full p-3 shadow-xl">
+          <div className="fixed bottom-6 right-6 z-50 bg-white/95 backdrop-blur-md rounded-full p-3 shadow-xl">
             <div className="flex items-center gap-3">
               <button
                 onClick={togglePlay}
@@ -413,13 +428,31 @@ export default function SundaTemplate({
       ) : (
         <div className="flex flex-col lg:flex-row min-h-screen">
           {/* Desktop Left Side - Static Image */}
-          <div className="hidden lg:block lg:w-7/12 h-screen sticky top-0 overflow-hidden">
+          <div className="hidden lg:block lg:w-7/12 h-screen sticky top-0 overflow-hidden relative">
             <img
               src={desktopImage || coverImage}
               alt="Cover"
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-black/20"></div>
+            <div className="absolute inset-0 bg-black/50"></div>
+            
+            {/* Heading Overlay */}
+            <div className="absolute inset-0 flex flex-col items-start justify-center text-left px-12 z-10">
+              <h2 className={`${playfair.className} text-white text-2xl md:text-3xl font-light mb-4 tracking-wide`}>
+                The Wedding of
+              </h2>
+              <h2 className={`${greatVibes.className} text-white text-5xl md:text-7xl font-normal mb-8`}>
+                {bride?.name} &amp; {groom?.name}
+              </h2>
+              <div className="mt-4">
+                <h2 className={`${playfair.className} text-white text-xl md:text-2xl font-light tracking-wider uppercase`}>
+                  Save The Date
+                </h2>
+                <h2 className={`${playfair.className} text-white text-xl md:text-2xl font-light mt-2`}>
+                  {moment(weddingDate).format('dddd, DD MMMM YYYY')}
+                </h2>
+              </div>
+            </div>
           </div>
 
           {/* Main Content */}
@@ -479,15 +512,15 @@ export default function SundaTemplate({
                   data-animate="true"
                 />
                 {venueMapUrl && (
-                  <div className="absolute bottom-[23%] left-0 right-0 flex justify-center z-20">
+                  <div className="absolute bottom-[calc(23%+5px)] left-0 right-0 flex justify-center z-20">
                     <a
                       href={venueMapUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="bg-[#2c2424] text-white px-8 py-3 lg:px-12 lg:py-4 rounded-full shadow-xl hover:bg-[#1a1515] transition flex items-center gap-2 font-medium text-base lg:text-xl border border-gray-200 hover:scale-105 transform duration-300"
+                      className="bg-[#82403f] text-white px-8 py-3 lg:px-12 lg:py-4 rounded-full shadow-xl hover:bg-[#1a1515] transition flex items-center gap-2 font-medium text-base lg:text-m border border-gray-200 hover:scale-105 transform duration-300"
                     >
-                      <MapPin size={20} className="lg:w-6 lg:h-6" /> Lihat
-                      Lokasi Google Maps
+                      <MapPin size={20} className="lg:w-6 lg:h-6" />
+                      Google Maps link
                     </a>
                   </div>
                 )}
@@ -524,12 +557,12 @@ export default function SundaTemplate({
               <div className="container mx-auto max-w-4xl">
                 <div className="text-center mb-12">
                   <h2
-                    className={`text-4xl md:text-5xl font-bold text-[#2c2424] mb-3 ${playfair.className}`}
+                    className={`text-4xl md:text-5xl font-bold text-[#82403f] mb-3 ${playfair.className}`}
                   >
                     Our Story
                   </h2>
                   <div className="w-24 h-1 bg-[#82403f] mx-auto mb-4"></div>
-                  <p className="text-[#2c2424]/70 italic text-sm">
+                  <p className="text-[#82403f]/70 italic text-sm">
                     Our love journey
                   </p>
                 </div>
@@ -757,7 +790,7 @@ export default function SundaTemplate({
                         <button
                           type="submit"
                           disabled={rsvpStatus.submitting}
-                          className="flex-1 bg-emerald-700 hover:bg-emerald-600 text-white py-3 rounded-xl transition disabled:opacity-50 font-medium"
+                          className="flex-1 bg-[#82403f] hover:bg-[#6d3535] text-white py-3 rounded-xl transition disabled:opacity-50 font-medium"
                         >
                           {rsvpStatus.submitting ? "Sending..." : "Send Wishes"}
                         </button>
@@ -874,7 +907,7 @@ export default function SundaTemplate({
                   </p>
                   <div className="mt-16 pt-8 border-t border-slate-100">
                     <p className="text-slate-400 text-sm">
-                      Created with ❤️ by Roemah Nenek Digital
+                      Created with ❤️ by Roemah Nenek Production
                     </p>
                   </div>
                 </div>
