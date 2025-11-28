@@ -403,24 +403,137 @@ export default function CreateInvitationClient() {
           </fieldset>
 
           {/* Wedding Date */}
-          {!isSunda && (
+          <fieldset className="border p-4 rounded-lg">
+            <legend className="text-lg font-medium text-gray-900">
+              Wedding Date
+            </legend>
+            <div className="mt-4">
+              <div>
+                <label
+                  htmlFor="weddingDate"
+                  className="block text-sm font-medium text-gray-900"
+                >
+                  Date & Time
+                </label>
+                <input
+                  type="datetime-local"
+                  id="weddingDate"
+                  name="weddingDate"
+                  value={formData.weddingDate}
+                  onChange={handleChange}
+                  className="mt-1 block w-full rounded-md border border-gray-400 bg-white shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm text-gray-900 placeholder-gray-500"
+                />
+              </div>
+            </div>
+          </fieldset>
+
+          {/* Section Images for Sunda Template */}
+          {isSunda && (
             <fieldset className="border p-4 rounded-lg">
               <legend className="text-lg font-medium text-gray-900">
-                Wedding Date
+                Section Images
               </legend>
-              <div className="mt-4">
+              <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label
-                    htmlFor="weddingDate"
-                    className="block text-sm font-medium text-gray-900"
-                  >
-                    Date & Time
+                  <label htmlFor="coverImage" className="block text-sm font-medium text-gray-900">
+                    Cover Image URL
                   </label>
                   <input
-                    type="datetime-local"
-                    id="weddingDate"
-                    name="weddingDate"
-                    value={formData.weddingDate}
+                    type="url"
+                    id="coverImage"
+                    name="coverImage"
+                    value={formData.coverImage}
+                    onChange={handleChange}
+                    className="mt-1 block w-full rounded-md border border-gray-400 bg-white shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm text-gray-900 placeholder-gray-500"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="desktopImage" className="block text-sm font-medium text-gray-900">
+                    Desktop Image URL
+                  </label>
+                  <input
+                    type="url"
+                    id="desktopImage"
+                    name="desktopImage"
+                    value={formData.desktopImage}
+                    onChange={handleChange}
+                    className="mt-1 block w-full rounded-md border border-gray-400 bg-white shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm text-gray-900 placeholder-gray-500"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="heroImage" className="block text-sm font-medium text-gray-900">
+                    Hero Image URL
+                  </label>
+                  <input
+                    type="url"
+                    id="heroImage"
+                    name="heroImage"
+                    value={formData.heroImage}
+                    onChange={handleChange}
+                    className="mt-1 block w-full rounded-md border border-gray-400 bg-white shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm text-gray-900 placeholder-gray-500"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="coupleImage" className="block text-sm font-medium text-gray-900">
+                    Couple Image URL
+                  </label>
+                  <input
+                    type="url"
+                    id="coupleImage"
+                    name="coupleImage"
+                    value={formData.coupleImage}
+                    onChange={handleChange}
+                    className="mt-1 block w-full rounded-md border border-gray-400 bg-white shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm text-gray-900 placeholder-gray-500"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="storyImage" className="block text-sm font-medium text-gray-900">
+                    Story Image URL
+                  </label>
+                  <input
+                    type="url"
+                    id="storyImage"
+                    name="storyImage"
+                    value={formData.storyImage}
+                    onChange={handleChange}
+                    className="mt-1 block w-full rounded-md border border-gray-400 bg-white shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm text-gray-900 placeholder-gray-500"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="eventImage" className="block text-sm font-medium text-gray-900">
+                    Event Image URL
+                  </label>
+                  <input
+                    type="url"
+                    id="eventImage"
+                    name="eventImage"
+                    value={formData.eventImage}
+                    onChange={handleChange}
+                    className="mt-1 block w-full rounded-md border border-gray-400 bg-white shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm text-gray-900 placeholder-gray-500"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="rsvpImage" className="block text-sm font-medium text-gray-900">
+                    RSVP Image URL
+                  </label>
+                  <input
+                    type="url"
+                    id="rsvpImage"
+                    name="rsvpImage"
+                    value={formData.rsvpImage}
+                    onChange={handleChange}
+                    className="mt-1 block w-full rounded-md border border-gray-400 bg-white shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm text-gray-900 placeholder-gray-500"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="giftImage" className="block text-sm font-medium text-gray-900">
+                    Gift Image URL
+                  </label>
+                  <input
+                    type="url"
+                    id="giftImage"
+                    name="giftImage"
+                    value={formData.giftImage}
                     onChange={handleChange}
                     className="mt-1 block w-full rounded-md border border-gray-400 bg-white shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm text-gray-900 placeholder-gray-500"
                   />
@@ -428,6 +541,229 @@ export default function CreateInvitationClient() {
               </div>
             </fieldset>
           )}
+
+          {/* Audio URL */}
+          <fieldset className="border p-4 rounded-lg">
+            <legend className="text-lg font-medium text-gray-900">
+              Audio
+            </legend>
+            <div className="mt-4">
+              <label htmlFor="audioUrl" className="block text-sm font-medium text-gray-900">
+                Background Music URL
+              </label>
+              <input
+                type="url"
+                id="audioUrl"
+                name="audioUrl"
+                value={formData.audioUrl}
+                onChange={handleChange}
+                placeholder="https://example.com/music.mp3"
+                className="mt-1 block w-full rounded-md border border-gray-400 bg-white shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm text-gray-900 placeholder-gray-500"
+              />
+            </div>
+          </fieldset>
+
+          {/* Venue Map URL */}
+          <fieldset className="border p-4 rounded-lg">
+            <legend className="text-lg font-medium text-gray-900">
+              Venue Map
+            </legend>
+            <div className="mt-4">
+              <label htmlFor="venueMapUrl" className="block text-sm font-medium text-gray-900">
+                Google Maps URL
+              </label>
+              <input
+                type="url"
+                id="venueMapUrl"
+                name="venueMapUrl"
+                value={formData.venueMapUrl}
+                onChange={handleChange}
+                placeholder="https://maps.google.com/..."
+                className="mt-1 block w-full rounded-md border border-gray-400 bg-white shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm text-gray-900 placeholder-gray-500"
+              />
+            </div>
+          </fieldset>
+
+          {/* Gallery */}
+          <fieldset className="border p-4 rounded-lg">
+            <legend className="text-lg font-medium text-gray-900">
+              Gallery
+            </legend>
+            <div className="mt-4 space-y-4">
+              {formData.gallery.map((item, index) => (
+                <div key={index} className="border p-4 rounded-md bg-gray-50">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-900">
+                        Image URL
+                      </label>
+                      <input
+                        type="url"
+                        value={item.url}
+                        onChange={(e) => handleArrayChange(index, "url", e.target.value, "gallery")}
+                        className="mt-1 block w-full rounded-md border border-gray-400 bg-white shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm text-gray-900 placeholder-gray-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-900">
+                        Caption
+                      </label>
+                      <input
+                        type="text"
+                        value={item.caption}
+                        onChange={(e) => handleArrayChange(index, "caption", e.target.value, "gallery")}
+                        className="mt-1 block w-full rounded-md border border-gray-400 bg-white shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm text-gray-900 placeholder-gray-500"
+                      />
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => removeFromArray(index, "gallery")}
+                    className="mt-2 text-red-600 hover:text-red-800 text-sm"
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={() => addToArray("gallery", { url: "", caption: "" })}
+                className="mt-2 text-amber-600 hover:text-amber-800 text-sm"
+              >
+                + Add Gallery Item
+              </button>
+            </div>
+          </fieldset>
+
+          {/* Story */}
+          <fieldset className="border p-4 rounded-lg">
+            <legend className="text-lg font-medium text-gray-900">
+              Our Story
+            </legend>
+            <div className="mt-4 space-y-4">
+              {formData.story.map((item, index) => (
+                <div key={index} className="border p-4 rounded-md bg-gray-50">
+                  <div className="grid grid-cols-1 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-900">
+                        Year
+                      </label>
+                      <input
+                        type="text"
+                        value={item.year}
+                        onChange={(e) => handleArrayChange(index, "year", e.target.value, "story")}
+                        placeholder="2023"
+                        className="mt-1 block w-full rounded-md border border-gray-400 bg-white shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm text-gray-900 placeholder-gray-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-900">
+                        Title
+                      </label>
+                      <input
+                        type="text"
+                        value={item.title}
+                        onChange={(e) => handleArrayChange(index, "title", e.target.value, "story")}
+                        placeholder="First Meet"
+                        className="mt-1 block w-full rounded-md border border-gray-400 bg-white shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm text-gray-900 placeholder-gray-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-900">
+                        Story Text
+                      </label>
+                      <textarea
+                        value={item.text}
+                        onChange={(e) => handleArrayChange(index, "text", e.target.value, "story")}
+                        rows="3"
+                        placeholder="Our love story began..."
+                        className="mt-1 block w-full rounded-md border border-gray-400 bg-white shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm text-gray-900 placeholder-gray-500"
+                      />
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => removeFromArray(index, "story")}
+                    className="mt-2 text-red-600 hover:text-red-800 text-sm"
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={() => addToArray("story", { year: "", title: "", text: "" })}
+                className="mt-2 text-amber-600 hover:text-amber-800 text-sm"
+              >
+                + Add Story Item
+              </button>
+            </div>
+          </fieldset>
+
+          {/* Bank Accounts */}
+          <fieldset className="border p-4 rounded-lg">
+            <legend className="text-lg font-medium text-gray-900">
+              Bank Accounts for Gifts
+            </legend>
+            <div className="mt-4 space-y-4">
+              {formData.bankAccounts.map((item, index) => (
+                <div key={index} className="border p-4 rounded-md bg-gray-50">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-900">
+                        Bank Name
+                      </label>
+                      <input
+                        type="text"
+                        value={item.bankName}
+                        onChange={(e) => handleArrayChange(index, "bankName", e.target.value, "bankAccounts")}
+                        placeholder="BCA"
+                        className="mt-1 block w-full rounded-md border border-gray-400 bg-white shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm text-gray-900 placeholder-gray-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-900">
+                        Account Holder
+                      </label>
+                      <input
+                        type="text"
+                        value={item.accountHolder}
+                        onChange={(e) => handleArrayChange(index, "accountHolder", e.target.value, "bankAccounts")}
+                        placeholder="John Doe"
+                        className="mt-1 block w-full rounded-md border border-gray-400 bg-white shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm text-gray-900 placeholder-gray-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-900">
+                        Account Number
+                      </label>
+                      <input
+                        type="text"
+                        value={item.accountNumber}
+                        onChange={(e) => handleArrayChange(index, "accountNumber", e.target.value, "bankAccounts")}
+                        placeholder="1234567890"
+                        className="mt-1 block w-full rounded-md border border-gray-400 bg-white shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm text-gray-900 placeholder-gray-500"
+                      />
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => removeFromArray(index, "bankAccounts")}
+                    className="mt-2 text-red-600 hover:text-red-800 text-sm"
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={() => addToArray("bankAccounts", { bankName: "", accountHolder: "", accountNumber: "" })}
+                className="mt-2 text-amber-600 hover:text-amber-800 text-sm"
+              >
+                + Add Bank Account
+              </button>
+            </div>
+          </fieldset>
 
           <div className="flex justify-end">
             <button
