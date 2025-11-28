@@ -20,6 +20,7 @@ import {
   Cormorant_Garamond,
   Great_Vibes,
   Inter,
+  EB_Garamond,
 } from "next/font/google";
 import moment from "moment";
 
@@ -34,6 +35,10 @@ const cormorant = Cormorant_Garamond({
 });
 const greatVibes = Great_Vibes({ subsets: ["latin"], weight: ["400"] });
 const inter = Inter({ subsets: ["latin"], weight: ["300", "400", "600"] });
+const ebGaramond = EB_Garamond({ 
+  subsets: ["latin"], 
+  weight: ["400", "500", "600"] 
+});
 
 const defaultData = {
   bride: { name: "Bride" },
@@ -438,17 +443,17 @@ export default function SundaTemplate({
             
             {/* Heading Overlay */}
             <div className="absolute inset-0 flex flex-col items-start justify-center text-left px-12 z-10">
-              <h2 className={`${playfair.className} text-white text-2xl md:text-3xl font-light mb-4 tracking-wide`}>
+              <h2 className={`${ebGaramond.className} text-white text-xl md:text-2xl font-light mb-4 tracking-wide`}>
                 The Wedding of
               </h2>
-              <h2 className={`${greatVibes.className} text-white text-5xl md:text-7xl font-normal mb-8`}>
+              <h2 className={`${greatVibes.className} text-white text-4xl md:text-6xl font-normal mb-8`}>
                 {bride?.name} &amp; {groom?.name}
               </h2>
               <div className="mt-4">
-                <h2 className={`${playfair.className} text-white text-xl md:text-2xl font-light tracking-wider uppercase`}>
+                <h2 className={`${ebGaramond.className} text-white text-lg md:text-xl font-light tracking-wider uppercase`}>
                   Save The Date
                 </h2>
-                <h2 className={`${playfair.className} text-white text-xl md:text-2xl font-light mt-2`}>
+                <h2 className={`${ebGaramond.className} text-white text-lg md:text-xl font-light mt-2`}>
                   {moment(weddingDate).format('dddd, DD MMMM YYYY')}
                 </h2>
               </div>
@@ -504,10 +509,32 @@ export default function SundaTemplate({
             </section>
 
             <section id="event" className="bg-white relative overflow-hidden">
-              <div className="w-full relative">
+              <div className="w-full">
                 <img
                   src={eventImage}
                   alt="Event"
+                  className="w-full h-auto block fade-in-image"
+                  data-animate="true"
+                />
+              </div>
+            </section>
+
+            <section id="rsvp" className="bg-white relative overflow-hidden">
+              <div className="w-full">
+                <img
+                  src={rsvpImage}
+                  alt="RSVP"
+                  className="w-full h-auto block fade-in-image"
+                  data-animate="true"
+                />
+              </div>
+            </section>
+
+            <section id="gift" className="bg-white relative overflow-hidden">
+              <div className="w-full relative">
+                <img
+                  src={giftImage}
+                  alt="Gift"
                   className="w-full h-auto block fade-in-image"
                   data-animate="true"
                 />
@@ -524,28 +551,6 @@ export default function SundaTemplate({
                     </a>
                   </div>
                 )}
-              </div>
-            </section>
-
-            <section id="rsvp" className="bg-white relative overflow-hidden">
-              <div className="w-full">
-                <img
-                  src={rsvpImage}
-                  alt="RSVP"
-                  className="w-full h-auto block fade-in-image"
-                  data-animate="true"
-                />
-              </div>
-            </section>
-
-            <section id="gift" className="bg-white relative overflow-hidden">
-              <div className="w-full">
-                <img
-                  src={giftImage}
-                  alt="Gift"
-                  className="w-full h-auto block fade-in-image"
-                  data-animate="true"
-                />
               </div>
             </section>
 
