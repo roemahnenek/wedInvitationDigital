@@ -3,18 +3,16 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function RootPage() {
+export default function AdminRootPage() {
   const router = useRouter();
 
   useEffect(() => {
-    // This will be the new home for the admin dashboard.
-    // We'll add authentication logic here later.
-    router.replace('/admin/dashboard');
+    router.replace('/admin/login');
   }, [router]);
 
   return (
     <main className="min-h-screen flex items-center justify-center">
-      <p>Loading Admin Dashboard...</p>
+      <p>Redirecting to admin login...</p>
     </main>
   );
 }
