@@ -164,7 +164,7 @@ export default function SundaTemplate({
     }
   }, [isPlaying, volume]);
 
-  // Stop music when browser is closing
+  // Stop music when browser is closing or page is hidden
   useEffect(() => {
     const handleBeforeUnload = () => {
       if (audioRef.current) {
@@ -173,9 +173,36 @@ export default function SundaTemplate({
       }
     };
 
+    const handleVisibilityChange = () => {
+      if (document.hidden && audioRef.current) {
+        audioRef.current.pause();
+      }
+    };
+
+    const handlePageHide = () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+      }
+    };
+
+    // For desktop browsers
     window.addEventListener('beforeunload', handleBeforeUnload);
+    
+    // For mobile browsers (iOS Safari)
+    window.addEventListener('pagehide', handlePageHide);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload);
+      window.removeEventListener('pagehide', handlePageHide);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      
+      // Cleanup: stop audio when component unmounts
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+      }
     };
   }, []);
 
@@ -568,36 +595,36 @@ export default function SundaTemplate({
             {/* Story Section */}
             <section
               id="story"
-              className="bg-gradient-to-b from-[#F1E9D7] to-white py-16 px-6"
+              className="bg-gradient-to-b from-[#F1E9D7] to-white py-4 md:py-16 px-2 md:px-6"
             >
               <div className="container mx-auto max-w-4xl">
-                <div className="text-center mb-12">
+                <div className="text-center mb-4 md:mb-12">
                   <h2
-                    className={`text-4xl md:text-5xl font-bold text-[#82403f] mb-3 ${playfair.className}`}
+                    className={`text-lg md:text-4xl lg:text-5xl font-bold text-[#82403f] mb-1 md:mb-3 ${playfair.className}`}
                   >
                     Our Story
                   </h2>
-                  <div className="w-24 h-1 bg-[#82403f] mx-auto mb-4"></div>
-                  <p className="text-[#82403f]/70 italic text-sm">
+                  <div className="w-10 md:w-24 h-0.5 md:h-1 bg-[#82403f] mx-auto mb-1 md:mb-4"></div>
+                  <p className="text-[#82403f]/70 italic text-[10px] md:text-sm">
                     Our love journey
                   </p>
                 </div>
 
                 {story && story.length > 0 ? (
-                  <div className="space-y-12">
+                  <div className="space-y-3 md:space-y-12">
                     {story.map((item, index) => (
                       <div
                         key={index}
-                        className={`flex flex-col md:flex-row gap-6 items-start ${
+                        className={`flex flex-col md:flex-row gap-2 md:gap-6 items-start ${
                           index % 2 === 1 ? "md:flex-row-reverse" : ""
                         }`}
                       >
                         {/* Year Badge */}
                         <div className="flex-shrink-0">
                           <div className="relative">
-                            <div className="w-20 h-20 bg-[#82403f] rounded-full flex items-center justify-center shadow-lg">
+                            <div className="w-10 h-10 md:w-20 md:h-20 bg-[#82403f] rounded-full flex items-center justify-center shadow-lg">
                               <span
-                                className={`text-white font-bold text-lg ${playfair.className}`}
+                                className={`text-white font-bold text-xs md:text-lg ${playfair.className}`}
                               >
                                 {item.year}
                               </span>
@@ -609,21 +636,21 @@ export default function SundaTemplate({
                         </div>
 
                         {/* Story Content */}
-                        <div className="flex-1 bg-white rounded-2xl p-6 shadow-md hover:shadow-xl transition-shadow duration-300">
+                        <div className="flex-1 bg-white rounded-md md:rounded-2xl p-2.5 md:p-6 shadow-md hover:shadow-xl transition-shadow duration-300">
                           <h3
-                            className={`text-2xl font-bold text-[#2c2424] mb-3 ${playfair.className}`}
+                            className={`text-sm md:text-2xl font-bold text-[#2c2424] mb-1 md:mb-3 ${playfair.className}`}
                           >
                             {item.title}
                           </h3>
-                          <p className="text-[#2c2424]/80 leading-relaxed">
+                          <p className="text-[11px] md:text-base text-[#2c2424]/80 leading-snug md:leading-relaxed">
                             {item.text}
                           </p>
 
                           {/* Decorative element */}
-                          <div className="mt-4 flex items-center gap-2">
+                          <div className="mt-1.5 md:mt-4 flex items-center gap-1 md:gap-2">
                             <Heart
-                              size={16}
-                              className="text-[#82403f] fill-[#82403f]"
+                              size={10}
+                              className="text-[#82403f] fill-[#82403f] md:w-4 md:h-4"
                             />
                             <div className="flex-1 h-px bg-gradient-to-r from-[#82403f]/50 to-transparent"></div>
                           </div>
@@ -632,41 +659,41 @@ export default function SundaTemplate({
                     ))}
                   </div>
                 ) : (
-                  <div className="text-center py-12">
-                    <p className="text-[#2c2424]/60 italic">
+                  <div className="text-center py-6 md:py-12">
+                    <p className="text-[#2c2424]/60 italic text-xs md:text-base">
                       Our love story will be here soon...
                     </p>
                   </div>
                 )}
 
                 {/* Bottom Decoration */}
-                <div className="mt-16 text-center">
-                  <div className="inline-flex items-center gap-3">
-                    <div className="w-12 h-px bg-[#82403f]/30"></div>
+                <div className="mt-4 md:mt-16 text-center">
+                  <div className="inline-flex items-center gap-1.5 md:gap-3">
+                    <div className="w-4 md:w-12 h-px bg-[#82403f]/30"></div>
                     <Heart
-                      size={20}
-                      className="text-[#82403f] fill-[#82403f] animate-pulse"
+                      size={12}
+                      className="text-[#82403f] fill-[#82403f] animate-pulse md:w-5 md:h-5"
                     />
-                    <div className="w-12 h-px bg-emerald-700/30"></div>
+                    <div className="w-4 md:w-12 h-px bg-emerald-700/30"></div>
                   </div>
                 </div>
               </div>
             </section>
 
-            <section id="gallery" className="bg-[#F1E9D7] py-12 px-6">
+            <section id="gallery" className="bg-[#F1E9D7] py-8 md:py-12 px-4 md:px-6">
               <div className="container mx-auto">
-                <div className="text-center mb-10">
+                <div className="text-center mb-6 md:mb-10">
                   <h2
-                    className={`text-4xl font-bold text-[#2c2424] mb-4 ${playfair.className}`}
+                    className={`text-2xl md:text-4xl font-bold text-[#2c2424] mb-2 md:mb-4 ${playfair.className}`}
                   >
                     Our Gallery
                   </h2>
-                  <p className="text-[#2c2424]/80 italic font-serif">
+                  <p className="text-[#2c2424]/80 italic font-serif text-xs md:text-base">
                     Our happy moments
                   </p>
                 </div>
 
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4">
                   {gallery && gallery.length > 0 ? (
                     gallery.map((item, index) => (
                       <div
@@ -697,32 +724,32 @@ export default function SundaTemplate({
 
             {/* Bank Accounts Section */}
             {bankAccounts && bankAccounts.length > 0 && (
-              <section className="py-12 bg-[#F9F8F4]">
-                <div className="container mx-auto px-6">
-                  <div className="text-center mb-8">
+              <section className="py-8 md:py-12 bg-[#F9F8F4]">
+                <div className="container mx-auto px-4 md:px-6">
+                  <div className="text-center mb-6 md:mb-8">
                     <h3
-                      className={`text-2xl text-slate-800 mb-2 ${playfair.className}`}
+                      className={`text-xl md:text-2xl text-slate-800 mb-2 ${playfair.className}`}
                     >
                       Wedding Gift
                     </h3>
-                    <p className="text-slate-500 text-sm">
+                    <p className="text-slate-500 text-xs md:text-sm">
                       For those who wish to send a gift, please send via:
                     </p>
                   </div>
-                  <div className="max-w-xl mx-auto space-y-4">
+                  <div className="max-w-xl mx-auto space-y-3 md:space-y-4">
                     {bankAccounts.map((bank, index) => (
                       <div
                         key={index}
-                        className="flex items-center justify-between p-6 rounded-2xl border border-stone-200 shadow-sm bg-white"
+                        className="flex items-center justify-between p-4 md:p-6 rounded-xl md:rounded-2xl border border-stone-200 shadow-sm bg-white"
                       >
                         <div className="flex flex-col text-left">
-                          <span className="font-bold text-slate-800 text-lg">
+                          <span className="font-bold text-slate-800 text-sm md:text-lg">
                             {bank.bankName}
                           </span>
-                          <span className="text-slate-600 font-mono text-xl tracking-wide my-1">
+                          <span className="text-slate-600 font-mono text-base md:text-xl tracking-wide my-1">
                             {bank.accountNumber}
                           </span>
-                          <span className="text-slate-500 text-sm">
+                          <span className="text-slate-500 text-xs md:text-sm">
                             a.n {bank.accountHolder}
                           </span>
                         </div>
@@ -730,15 +757,15 @@ export default function SundaTemplate({
                           onClick={() =>
                             copyToClipboard(bank.accountNumber, index)
                           }
-                          className="p-3 bg-stone-50 rounded-xl shadow-sm border border-stone-100 text-emerald-700 hover:bg-emerald-50 transition-colors group"
+                          className="p-2 md:p-3 bg-stone-50 rounded-lg md:rounded-xl shadow-sm border border-stone-100 text-emerald-700 hover:bg-emerald-50 transition-colors group"
                           title="Copy Account Number"
                         >
                           {copiedBank === index ? (
-                            <Check size={20} />
+                            <Check size={18} className="md:w-5 md:h-5" />
                           ) : (
                             <Copy
-                              size={20}
-                              className="group-hover:scale-110 transition-transform"
+                              size={18}
+                              className="group-hover:scale-110 transition-transform md:w-5 md:h-5"
                             />
                           )}
                         </button>
@@ -749,24 +776,24 @@ export default function SundaTemplate({
               </section>
             )}
 
-            <section id="wishes" className="py-20 bg-[#F9F8F4]">
-              <div className="container mx-auto px-6">
-                <div className="text-center mb-12">
+            <section id="wishes" className="py-12 md:py-20 bg-[#F9F8F4]">
+              <div className="container mx-auto px-4 md:px-6">
+                <div className="text-center mb-8 md:mb-12">
                   <h2
-                    className={`text-4xl text-slate-800 mb-4 ${playfair.className}`}
+                    className={`text-2xl md:text-4xl text-slate-800 mb-2 md:mb-4 ${playfair.className}`}
                   >
                     Wishes & Prayers
                   </h2>
-                  <div className="w-24 h-1 bg-emerald-700 mx-auto"></div>
+                  <div className="w-16 md:w-24 h-1 bg-emerald-700 mx-auto"></div>
                 </div>
 
                 {/* Form */}
-                <div className="max-w-2xl mx-auto mb-16">
+                <div className="max-w-2xl mx-auto mb-10 md:mb-16">
                   <form
                     onSubmit={handleRSVP}
-                    className="bg-white p-8 rounded-3xl shadow-lg border border-stone-100"
+                    className="bg-white p-5 md:p-8 rounded-2xl md:rounded-3xl shadow-lg border border-stone-100"
                   >
-                    <div className="space-y-4">
+                    <div className="space-y-3 md:space-y-4">
                       <input
                         type="text"
                         value={rsvpData.name}
@@ -774,7 +801,7 @@ export default function SundaTemplate({
                           setRsvpData({ ...rsvpData, name: e.target.value })
                         }
                         placeholder="Your Name"
-                        className="w-full px-4 py-3 bg-[#F9F8F4] border border-stone-200 rounded-xl focus:outline-none focus:border-emerald-500 text-slate-800 placeholder-slate-400"
+                        className="w-full px-3 md:px-4 py-2 md:py-3 bg-[#F9F8F4] border border-stone-200 rounded-xl focus:outline-none focus:border-emerald-500 text-slate-800 placeholder-slate-400 text-sm md:text-base"
                         required
                       />
                       <textarea
@@ -784,10 +811,10 @@ export default function SundaTemplate({
                         }
                         rows="3"
                         placeholder="Write your wishes & prayers..."
-                        className="w-full px-4 py-3 bg-[#F9F8F4] border border-stone-200 rounded-xl focus:outline-none focus:border-emerald-500 resize-none text-slate-800 placeholder-slate-400"
+                        className="w-full px-3 md:px-4 py-2 md:py-3 bg-[#F9F8F4] border border-stone-200 rounded-xl focus:outline-none focus:border-emerald-500 resize-none text-slate-800 placeholder-slate-400 text-sm md:text-base"
                         required
                       ></textarea>
-                      <div className="flex gap-4">
+                      <div className="flex gap-3 md:gap-4">
                         <select
                           value={rsvpData.attending}
                           onChange={(e) =>
@@ -796,7 +823,7 @@ export default function SundaTemplate({
                               attending: e.target.value,
                             })
                           }
-                          className="px-4 py-3 bg-[#F9F8F4] border border-stone-200 rounded-xl focus:outline-none focus:border-emerald-500 text-sm text-slate-800"
+                          className="px-3 md:px-4 py-2 md:py-3 bg-[#F9F8F4] border border-stone-200 rounded-xl focus:outline-none focus:border-emerald-500 text-xs md:text-sm text-slate-800"
                           required
                         >
                           <option value="">Confirm Attendance</option>
@@ -806,14 +833,14 @@ export default function SundaTemplate({
                         <button
                           type="submit"
                           disabled={rsvpStatus.submitting}
-                          className="flex-1 bg-[#82403f] hover:bg-[#6d3535] text-white py-3 rounded-xl transition disabled:opacity-50 font-medium"
+                          className="flex-1 bg-[#82403f] hover:bg-[#6d3535] text-white py-2 md:py-3 rounded-xl transition disabled:opacity-50 font-medium text-sm md:text-base"
                         >
                           {rsvpStatus.submitting ? "Sending..." : "Send Wishes"}
                         </button>
                       </div>
                     </div>
                     {rsvpStatus.submitted && (
-                      <p className="text-emerald-600 text-center mt-4 text-sm">
+                      <p className="text-emerald-600 text-center mt-3 md:mt-4 text-xs md:text-sm">
                         Thank you for your wishes!
                       </p>
                     )}
@@ -821,7 +848,7 @@ export default function SundaTemplate({
                 </div>
 
                 {/* Messages List */}
-                <div className="max-w-2xl mx-auto space-y-4">
+                <div className="max-w-2xl mx-auto space-y-3 md:space-y-4">
                   {guestMessages.length === 0 ? (
                     <p className="text-center text-slate-500 italic">
                       No wishes yet. Be the first to send your wishes!
@@ -836,10 +863,10 @@ export default function SundaTemplate({
                         .map((guest, i) => (
                           <div
                             key={i}
-                            className="bg-white p-6 rounded-2xl shadow-sm border border-stone-100"
+                            className="bg-white p-4 md:p-6 rounded-xl md:rounded-2xl shadow-sm border border-stone-100"
                           >
                             <div className="flex items-start justify-between mb-2">
-                              <h4 className="font-bold text-slate-800">
+                              <h4 className="font-bold text-slate-800 text-sm md:text-base">
                                 {guest.name}
                               </h4>
                               <span
@@ -854,10 +881,10 @@ export default function SundaTemplate({
                                   : "Not Attending"}
                               </span>
                             </div>
-                            <p className="text-slate-600 text-sm leading-relaxed">
+                            <p className="text-slate-600 text-xs md:text-sm leading-relaxed">
                               {guest.message}
                             </p>
-                            <p className="text-slate-400 text-xs mt-3">
+                            <p className="text-slate-400 text-xs mt-2 md:mt-3">
                               {moment(guest.createdAt).fromNow()}
                             </p>
                           </div>
@@ -865,17 +892,17 @@ export default function SundaTemplate({
 
                       {/* Pagination Controls */}
                       {guestMessages.length > itemsPerPage && (
-                        <div className="flex justify-center gap-4 mt-6">
+                        <div className="flex justify-center gap-3 md:gap-4 mt-4 md:mt-6">
                           <button
                             onClick={() =>
                               setCurrentPage((prev) => Math.max(prev - 1, 1))
                             }
                             disabled={currentPage === 1}
-                            className="px-4 py-2 bg-white border border-stone-200 rounded-full text-slate-600 hover:bg-stone-50 disabled:opacity-50 disabled:cursor-not-allowed transition text-sm"
+                            className="px-3 md:px-4 py-2 bg-white border border-stone-200 rounded-full text-slate-600 hover:bg-stone-50 disabled:opacity-50 disabled:cursor-not-allowed transition text-xs md:text-sm"
                           >
                             ← Previous
                           </button>
-                          <span className="text-slate-500 text-sm flex items-center">
+                          <span className="text-slate-500 text-xs md:text-sm flex items-center">
                             Page {currentPage} of{" "}
                             {Math.ceil(guestMessages.length / itemsPerPage)}
                           </span>
@@ -892,7 +919,7 @@ export default function SundaTemplate({
                               currentPage ===
                               Math.ceil(guestMessages.length / itemsPerPage)
                             }
-                            className="px-4 py-2 bg-white border border-stone-200 rounded-full text-slate-600 hover:bg-stone-50 disabled:opacity-50 disabled:cursor-not-allowed transition text-sm"
+                            className="px-3 md:px-4 py-2 bg-white border border-stone-200 rounded-full text-slate-600 hover:bg-stone-50 disabled:opacity-50 disabled:cursor-not-allowed transition text-xs md:text-sm"
                           >
                             Next →
                           </button>
