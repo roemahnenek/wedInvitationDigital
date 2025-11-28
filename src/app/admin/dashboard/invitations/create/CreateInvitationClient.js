@@ -128,6 +128,23 @@ export default function CreateInvitationClient() {
     try {
       const payload = { ...formData };
 
+      // Filter out empty gallery items
+      payload.gallery = payload.gallery.filter(item => item.url && item.url.trim() !== '');
+      
+      // Filter out empty story items
+      payload.story = payload.story.filter(item => 
+        item.year && item.year.trim() !== '' && 
+        item.title && item.title.trim() !== '' && 
+        item.text && item.text.trim() !== ''
+      );
+      
+      // Filter out empty bank accounts
+      payload.bankAccounts = payload.bankAccounts.filter(item => 
+        item.bankName && item.bankName.trim() !== '' && 
+        item.accountHolder && item.accountHolder.trim() !== '' && 
+        item.accountNumber && item.accountNumber.trim() !== ''
+      );
+
       if (payload.templateId === "sunda") {
         payload.events = [];
         payload.groom = { ...payload.groom, parents: "", photoUrl: "" };
@@ -138,6 +155,11 @@ export default function CreateInvitationClient() {
         payload.giftMessage = "";
         if (!payload.weddingDate) delete payload.weddingDate;
       } else {
+        // Filter out empty events
+        payload.events = payload.events.filter(event => 
+          event.title && event.title.trim() !== '' &&
+          event.venueName && event.venueName.trim() !== ''
+        );
         if (!payload.weddingDate) delete payload.weddingDate;
       }
 
