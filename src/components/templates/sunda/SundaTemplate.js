@@ -142,11 +142,7 @@ export default function SundaTemplate({
       const nameFromUrl = searchParams.get("name");
       if (nameFromUrl) {
         setGuestName(decodeURIComponent(nameFromUrl));
-        // Auto-fill RSVP name if available
-        setRsvpData((prev) => ({
-          ...prev,
-          name: decodeURIComponent(nameFromUrl),
-        }));
+        // Don't auto-fill RSVP name - let user input freely
       }
     }
   }, [searchParams]);
@@ -724,32 +720,32 @@ export default function SundaTemplate({
 
             {/* Bank Accounts Section */}
             {bankAccounts && bankAccounts.length > 0 && (
-              <section className="py-8 md:py-12 bg-[#F9F8F4]">
-                <div className="container mx-auto px-4 md:px-6">
-                  <div className="text-center mb-6 md:mb-8">
+              <section className="py-4 md:py-12 bg-[#F9F8F4]">
+                <div className="container mx-auto px-2 md:px-6">
+                  <div className="text-center mb-4 md:mb-8">
                     <h3
-                      className={`text-xl md:text-2xl text-slate-800 mb-2 ${playfair.className}`}
+                      className={`text-lg md:text-2xl text-slate-800 mb-1 ${playfair.className}`}
                     >
                       Wedding Gift
                     </h3>
-                    <p className="text-slate-500 text-xs md:text-sm">
+                    <p className="text-slate-500 text-[10px] md:text-sm">
                       For those who wish to send a gift, please send via:
                     </p>
                   </div>
-                  <div className="max-w-xl mx-auto space-y-3 md:space-y-4">
+                  <div className="max-w-xl mx-auto space-y-2 md:space-y-4">
                     {bankAccounts.map((bank, index) => (
                       <div
                         key={index}
-                        className="flex items-center justify-between p-4 md:p-6 rounded-xl md:rounded-2xl border border-stone-200 shadow-sm bg-white"
+                        className="flex items-center justify-between p-2.5 md:p-6 rounded-md md:rounded-2xl border border-stone-200 shadow-sm bg-white"
                       >
                         <div className="flex flex-col text-left">
-                          <span className="font-bold text-slate-800 text-sm md:text-lg">
+                          <span className="font-bold text-slate-800 text-xs md:text-lg">
                             {bank.bankName}
                           </span>
-                          <span className="text-slate-600 font-mono text-base md:text-xl tracking-wide my-1">
+                          <span className="text-slate-600 font-mono text-sm md:text-xl tracking-wide my-0.5 md:my-1">
                             {bank.accountNumber}
                           </span>
-                          <span className="text-slate-500 text-xs md:text-sm">
+                          <span className="text-slate-500 text-[10px] md:text-sm">
                             a.n {bank.accountHolder}
                           </span>
                         </div>
@@ -757,14 +753,14 @@ export default function SundaTemplate({
                           onClick={() =>
                             copyToClipboard(bank.accountNumber, index)
                           }
-                          className="p-2 md:p-3 bg-stone-50 rounded-lg md:rounded-xl shadow-sm border border-stone-100 text-emerald-700 hover:bg-emerald-50 transition-colors group"
+                          className="p-1.5 md:p-3 bg-stone-50 rounded-md md:rounded-xl shadow-sm border border-stone-100 text-emerald-700 hover:bg-emerald-50 transition-colors group"
                           title="Copy Account Number"
                         >
                           {copiedBank === index ? (
-                            <Check size={18} className="md:w-5 md:h-5" />
+                            <Check size={16} className="md:w-5 md:h-5" />
                           ) : (
                             <Copy
-                              size={18}
+                              size={16}
                               className="group-hover:scale-110 transition-transform md:w-5 md:h-5"
                             />
                           )}
