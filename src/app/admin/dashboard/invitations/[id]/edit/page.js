@@ -51,6 +51,7 @@ const defaultFormData = {
   showGiftSection: true,
   giftMessage: "",
   bankAccounts: [{ bankName: "", accountHolder: "", accountNumber: "" }],
+  metaDescription: "", // Custom meta description for link preview
 };
 
 export default function EditInvitationPage({ params }) {
@@ -320,6 +321,26 @@ export default function EditInvitationPage({ params }) {
                     </option>
                   ))}
                 </select>
+              </div>
+              <div>
+                <label
+                  htmlFor="metaDescription"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Link Preview Description (for WhatsApp, Facebook, etc.)
+                </label>
+                <textarea
+                  id="metaDescription"
+                  name="metaDescription"
+                  value={formData.metaDescription}
+                  onChange={handleChange}
+                  rows="2"
+                  className="mt-1 block w-full rounded-md border border-gray-400 bg-white shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm text-gray-900 placeholder-gray-500"
+                  placeholder="You are invited to celebrate the wedding of..."
+                />
+                <p className="mt-1 text-xs text-gray-600">
+                  This text will appear when sharing the invitation link on social media. Leave empty to use default.
+                </p>
               </div>
             </div>
           </fieldset>

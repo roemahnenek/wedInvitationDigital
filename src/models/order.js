@@ -36,6 +36,9 @@ const orderSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    
+    // Meta information for social sharing
+    metaDescription: { type: String }, // Custom description for link preview
 
     // Couple Info
     groom: {

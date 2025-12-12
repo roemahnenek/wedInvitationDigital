@@ -77,7 +77,7 @@ export async function generateMetadata({ params }) {
     });
 
     const title = `The Wedding of ${invitationData.bride.name} & ${invitationData.groom.name}`;
-    const description = `You are invited to celebrate the wedding of ${invitationData.bride.name} and ${invitationData.groom.name} on ${weddingDate}`;
+    const description = invitationData.metaDescription || `You are invited to celebrate the wedding of ${invitationData.bride.name} and ${invitationData.groom.name} on ${weddingDate}`;
     
     // Get the image URL - make sure it's absolute
     let imageUrl = invitationData.coverImage || invitationData.heroImage || invitationData.desktopImage || '';
