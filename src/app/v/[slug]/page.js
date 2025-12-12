@@ -79,8 +79,13 @@ export async function generateMetadata({ params }) {
     const title = `The Wedding of ${invitationData.bride.name} & ${invitationData.groom.name}`;
     const description = invitationData.metaDescription || `You are invited to celebrate the wedding of ${invitationData.bride.name} and ${invitationData.groom.name} on ${weddingDate}`;
     
-    // Get the image URL - make sure it's absolute
-    let imageUrl = invitationData.coverImage || invitationData.heroImage || invitationData.desktopImage || '';
+    // Get the image URL - prioritize desktopImage for Sunda template, then coverImage, then heroImage
+    let imageUrl = '';
+    if (invitationData.templateId === 'sunda') {
+      imageUrl = invitationData.desktopImage || invitationData.coverImage || invitationData.heroImage || '';
+    } else {
+      imageUrl = invitationData.coverImage || invitationData.heroImage || invitationData.desktopImage || '';
+    }
     
     // If image URL is relative, make it absolute
     if (imageUrl && !imageUrl.startsWith('http')) {
