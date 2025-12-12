@@ -346,6 +346,14 @@ export default function SundaTemplate({
 
   return (
     <div className={`min-h-screen bg-white ${inter.className}`}>
+      {/* Preload critical images for faster loading */}
+      {!showInvitation && coverImage && (
+        <link rel="preload" as="image" href={coverImage} fetchpriority="high" />
+      )}
+      {showInvitation && heroImage && (
+        <link rel="preload" as="image" href={heroImage} fetchpriority="high" />
+      )}
+      
       {audioUrl && (
         <audio ref={audioRef} loop preload="auto" playsInline>
           <source src={audioUrl} type="audio/mpeg" />
@@ -387,6 +395,9 @@ export default function SundaTemplate({
               src={coverImage}
               alt="Wedding Invitation"
               className="w-full h-full object-contain opacity-0 animate-[fadeIn_1.5s_ease-in-out_forwards]"
+              loading="eager"
+              fetchpriority="high"
+              decoding="async"
             />
             {/* Dark overlay at bottom for better readability */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
@@ -472,6 +483,9 @@ export default function SundaTemplate({
               src={desktopImage || coverImage}
               alt="Cover"
               className="w-full h-full object-cover"
+              loading="eager"
+              fetchpriority="high"
+              decoding="async"
             />
             <div className="absolute inset-0 bg-black/50"></div>
             
@@ -506,6 +520,9 @@ export default function SundaTemplate({
                   alt="Wedding Invitation"
                   className="w-full h-auto block fade-in-image"
                   data-animate="true"
+                  loading="eager"
+                  fetchpriority="high"
+                  decoding="async"
                 />
               </div>
 
@@ -527,6 +544,8 @@ export default function SundaTemplate({
                   alt="Couple"
                   className="w-full h-auto block fade-in-image"
                   data-animate="true"
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
             </section>
@@ -538,6 +557,8 @@ export default function SundaTemplate({
                   alt="Wedding Detail"
                   className="w-full h-auto block fade-in-image"
                   data-animate="true"
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
             </section>
@@ -548,6 +569,8 @@ export default function SundaTemplate({
                   src={eventImage}
                   alt="Event"
                   className="w-full h-auto block fade-in-image"
+                  loading="lazy"
+                  decoding="async"
                   data-animate="true"
                 />
               </div>
@@ -560,6 +583,8 @@ export default function SundaTemplate({
                   alt="RSVP"
                   className="w-full h-auto block fade-in-image"
                   data-animate="true"
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
             </section>
@@ -571,6 +596,8 @@ export default function SundaTemplate({
                   alt="Gift"
                   className="w-full h-auto block fade-in-image"
                   data-animate="true"
+                  loading="lazy"
+                  decoding="async"
                 />
                 {venueMapUrl && (
                   <div className="absolute bottom-[calc(23%+5px)] left-0 right-0 flex justify-center z-20">

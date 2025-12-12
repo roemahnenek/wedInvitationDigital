@@ -68,9 +68,40 @@ export async function generateMetadata({ params }) {
         title: 'Invitation Not Found',
       };
     }
+
+    const weddingDate = new Date(invitationData.weddingDate).toLocaleDateString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+
+    const title = `The Wedding of ${invitationData.bride.name} & ${invitationData.groom.name}`;
+    const description = `You are invited to celebrate the wedding of ${invitationData.bride.name} and ${invitationData.groom.name} on ${weddingDate}`;
+    const imageUrl = invitationData.coverImage || invitationData.heroImage || invitationData.desktopImage || '';
   
     return {
-      title: `The Wedding of ${invitationData.bride.name} & ${invitationData.groom.name}`,
-      description: `You are invited to the wedding of ${invitationData.bride.name} and ${invitationData.groom.name}.`,
+      title: title,
+      description: description,
+      openGraph: {
+        title: title,
+        description: description,
+        images: [
+          {
+            url: imageUrl,
+            width: 1200,
+            height: 630,
+            alt: `${invitationData.bride.name} & ${invitationData.groom.name} Wedding`,
+          }
+        ],
+        type: 'website',
+        siteName: 'Wedding Invitation',
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: title,
+        description: description,
+        images: [imageUrl],
+      },
     };
   }
