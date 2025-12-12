@@ -12,6 +12,7 @@ export default function InvitationGuestsPage({ params }) {
   const [guestNames, setGuestNames] = useState("");
   const [generatedLinks, setGeneratedLinks] = useState([]);
   const [copiedIndex, setCopiedIndex] = useState(null);
+  const [copiedAll, setCopiedAll] = useState(false);
 
   useEffect(() => {
     const fetchInvitation = async () => {
@@ -49,6 +50,15 @@ export default function InvitationGuestsPage({ params }) {
     navigator.clipboard.writeText(text);
     setCopiedIndex(index);
     setTimeout(() => setCopiedIndex(null), 2000);
+  };
+
+  const copyAllLinks = () => {
+    const allLinks = generatedLinks
+      .map((item) => `${item.name}: ${item.url}`)
+      .join("\n");
+    navigator.clipboard.writeText(allLinks);
+    setCopiedAll(true);
+    setTimeout(() => setCopiedAll(false), 2000);
   };
 
   if (loading)
@@ -131,11 +141,32 @@ export default function InvitationGuestsPage({ params }) {
                 <ExternalLink size={20} className="text-blue-600" />
                 Generated Links
               </h2>
-              {generatedLinks.length > 0 && (
-                <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
-                  {generatedLinks.length} links
-                </span>
-              )}
+              <div className="flex items-center gap-2">
+                {generatedLinks.length > 0 && (
+                  <>
+                    <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
+                      {generatedLinks.length} links
+                    </span>
+                    <button
+                      onClick={copyAllLinks}
+                      className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition font-medium shadow-sm"
+                      title="Copy All Links"
+                    >
+                      {copiedAll ? (
+                        <>
+                          <Check size={14} />
+                          <span>Copied!</span>
+                        </>
+                      ) : (
+                        <>
+                          <Copy size={14} />
+                          <span>Copy All</span>
+                        </>
+                      )}
+                    </button>
+                  </>
+                )}
+              </div>
             </div>
 
             {generatedLinks.length === 0 ? (

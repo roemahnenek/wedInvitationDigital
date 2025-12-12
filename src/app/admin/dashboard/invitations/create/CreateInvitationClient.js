@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, Copy, Check } from "lucide-react";
 import X from "lucide-react/dist/esm/icons/x";
 import Link from "next/link";
 import moment from "moment";
@@ -66,6 +66,7 @@ export default function CreateInvitationClient() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [copiedUrl, setCopiedUrl] = useState(false);
 
   const slugify = (text) => {
     return text
@@ -118,6 +119,13 @@ export default function CreateInvitationClient() {
       const newArray = prev[arrayName].filter((_, i) => i !== index);
       return { ...prev, [arrayName]: newArray };
     });
+  };
+
+  const copyInvitationUrl = () => {
+    const fullUrl = `${urlOrigin}/v/${formData.slug}`;
+    navigator.clipboard.writeText(fullUrl);
+    setCopiedUrl(true);
+    setTimeout(() => setCopiedUrl(false), 2000);
   };
 
   const handleSubmit = async (e) => {
@@ -252,9 +260,19 @@ export default function CreateInvitationClient() {
                   Only letters, numbers, and dashes. No spaces allowed.
                 </p>
                 {formData.slug && urlOrigin && (
-                  <p className="mt-1 text-xs text-emerald-600 font-medium">
-                    URL: {urlOrigin}/v/{formData.slug}
-                  </p>
+                  <div className="mt-2 flex items-center gap-2 p-2 bg-emerald-50 rounded-lg border border-emerald-200">
+                    <p className="flex-1 text-xs text-emerald-700 font-medium break-all">
+                      {urlOrigin}/v/{formData.slug}
+                    </p>
+                    <button
+                      type="button"
+                      onClick={copyInvitationUrl}
+                      className="flex-shrink-0 p-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded transition-colors"
+                      title="Copy URL"
+                    >
+                      {copiedUrl ? <Check size={16} /> : <Copy size={16} />}
+                    </button>
+                  </div>
                 )}
               </div>
               <div>
