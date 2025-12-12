@@ -78,30 +78,50 @@ export async function generateMetadata({ params }) {
 
     const title = `The Wedding of ${invitationData.bride.name} & ${invitationData.groom.name}`;
     const description = `You are invited to celebrate the wedding of ${invitationData.bride.name} and ${invitationData.groom.name} on ${weddingDate}`;
-    const imageUrl = invitationData.coverImage || invitationData.heroImage || invitationData.desktopImage || '';
+    
+    // Get the image URL - make sure it's absolute
+    let imageUrl = invitationData.coverImage || invitationData.heroImage || invitationData.desktopImage || '';
+    
+    // If image URL is relative, make it absolute
+    if (imageUrl && !imageUrl.startsWith('http')) {
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://roemah-nenek.vercel.app';
+      imageUrl = `${baseUrl}${imageUrl.startsWith('/') ? '' : '/'}${imageUrl}`;
+    }
+    
+    const url = `${process.env.NEXT_PUBLIC_BASE_URL || 'https://roemah-nenek.vercel.app'}/v/${slug}`;
   
     return {
       title: title,
       description: description,
+      metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'https://roemah-nenek.vercel.app'),
       openGraph: {
         title: title,
         description: description,
+        url: url,
         images: [
           {
             url: imageUrl,
             width: 1200,
             height: 630,
             alt: `${invitationData.bride.name} & ${invitationData.groom.name} Wedding`,
+            type: 'image/jpeg',
           }
         ],
         type: 'website',
         siteName: 'Wedding Invitation',
+        locale: 'en_US',
       },
       twitter: {
         card: 'summary_large_image',
         title: title,
         description: description,
         images: [imageUrl],
+      },
+      // Additional meta tags for better WhatsApp preview
+      other: {
+        'og:image:width': '1200',
+        'og:image:height': '630',
+        'og:image:type': 'image/jpeg',
       },
     };
   }
